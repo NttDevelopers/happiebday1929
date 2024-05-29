@@ -48,12 +48,36 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Handle touch events for password submission
+    passwordSubmitButton.addEventListener('touchstart', () => {
+        if (passwordInput.value === correctPassword) {
+            passwordError.classList.add('hidden');
+            passwordContainer.style.display = 'none';
+            content.style.display = 'block';
+            typeText(document.getElementById('birthday-message'), 'Happy Birthday Lalitha 🎉');
+        } else {
+            passwordError.classList.remove('hidden');
+        }
+    });
+
     surpriseButton.addEventListener('click', () => {
         surpriseContent.classList.toggle('hidden');
         playAudioButton.classList.toggle('hidden');
     });
 
+    // Handle touch events for surprise button
+    surpriseButton.addEventListener('touchstart', () => {
+        surpriseContent.classList.toggle('hidden');
+        playAudioButton.classList.toggle('hidden');
+    });
+
     playAudioButton.addEventListener('click', () => {
+        birthdayAudio.classList.toggle('hidden');
+        birthdayAudio.play();
+    });
+
+    // Handle touch events for play audio button
+    playAudioButton.addEventListener('touchstart', () => {
         birthdayAudio.classList.toggle('hidden');
         birthdayAudio.play();
     });
