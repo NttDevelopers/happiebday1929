@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday-071(Venus)</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="preloader">
+        <div id="preloader-text"></div>
+    </div>
+    <canvas id="balloons"></canvas>
+    <div class="card" id="card" style="display: none;">
+        <div id="password-container">
+            <p>Enter Password to Unlock</p>
+            <input type="password" id="password-input" placeholder="Enter Password">
+            <button id="password-submit-button">Submit</button>
+            <p id="password-error" class="hidden">Incorrect password, please try again.</p>
+        </div>
+        <div id="content" style="display: none;">
+            <h1 id="birthday-message"></h1>
+            <div class="content">
+                <p>Once again, many more happy returns of the day, Lalii. Always keep smiling and be happy. Start your day with a smile and maintain the same smile before you go to bed, <b>#venus</b></p>
+                <button id="surprise-button">Message For You</button>
+                <div id="surprise-content" class="hidden">
+                    <img src="1.jpg" alt="Best Friend" class="birthday-photo">
+                    <button id="play-audio-button" class="hidden">Play Audio</button>
+                    <p><b>Use 🎧 while listening</b></p>
+                    <audio id="birthday-audio" src="1.mp3" controls class="hidden"></audio>
+                    <p><a href="https://wa.me/+918500181980?text=Where%20is%20the%20another%20music%20audio%20file?" target="_blank" class="whatsapp-link">Send a message on WhatsApp</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
