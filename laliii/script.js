@@ -2,12 +2,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const preloader = document.getElementById('preloader');
     const preloaderText = document.getElementById('preloader-text');
     const card = document.getElementById('card');
+    const content = document.getElementById('content');
+    const passwordContainer = document.getElementById('password-container');
+    const passwordInput = document.getElementById('password-input');
+    const passwordSubmitButton = document.getElementById('password-submit-button');
+    const passwordError = document.getElementById('password-error');
     const surpriseButton = document.getElementById('surprise-button');
     const surpriseContent = document.getElementById('surprise-content');
     const playAudioButton = document.getElementById('play-audio-button');
     const birthdayAudio = document.getElementById('birthday-audio');
-
-    const typingSpeed = 150; // Adjust typing speed here
+    const correctPassword = "290503"; // Set your password here
+    const typingSpeed = 100; // Adjust typing speed here
 
     function typeText(element, text, callback) {
         let index = 0;
@@ -29,84 +34,74 @@ document.addEventListener('DOMContentLoaded', () => {
             preloader.style.display = 'none';
             card.style.display = 'block';
             startBalloons();
+        }, 4000);
+    });
 
-            // Show the birthday message with typing effect
-            const birthdayMessage = document.getElementById('birthday-message');
-            typeText(birthdayMessage, 'Happy Birthday Lalitha 🎉');
-        }, 500);
+    passwordSubmitButton.addEventListener('click', () => {
+        if (passwordInput.value === correctPassword) {
+            passwordError.classList.add('hidden');
+            passwordContainer.style.display = 'none';
+            content.style.display = 'block';
+            typeText(document.getElementById('birthday-message'), 'Happy Birthday Lalitha 🎉');
+        } else {
+            passwordError.classList.remove('hidden');
+        }
     });
 
     surpriseButton.addEventListener('click', () => {
         surpriseContent.classList.toggle('hidden');
-        if (!surpriseContent.classList.contains('hidden')) {
-            surpriseButton.textContent = '←'; // Unicode for left arrow symbol
-            playAudioButton.classList.remove('hidden');
-        } else {
-            surpriseButton.textContent = 'Message For You';
-        }
+        playAudioButton.classList.toggle('hidden');
     });
 
     playAudioButton.addEventListener('click', () => {
-        birthdayAudio.classList.remove('hidden');
+        birthdayAudio.classList.toggle('hidden');
         birthdayAudio.play();
-        playAudioButton.style.display = 'none';
     });
 });
 
 function startBalloons() {
     const canvas = document.getElementById('balloons');
     const ctx = canvas.getContext('2d');
-    const balloonColors = ['#FF5733', '#FFBD33', '#FF33E6', '#337DFF', '#33FFC4'];
-    const balloonRadius = 30;
-    const threadLength = 150;
-    const numBalloons = 10;
-    let balloons = [];
+    const balloonColors = ['#FF6A88', '#FFB6C1', '#FF69B4', '#FFA07A', '#FF4500'];
+    const balloons = [];
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    for (let i = 0; i < 20; i++) {
+        balloons.push({
+            x: Math.random() * canvas.width,
+            y: canvas.height + Math.random() * canvas.height,
+            r: Math.random() * 20 + 10,
+            color: balloonColors[Math.floor(Math.random() * balloonColors.length)],
+            speed: Math.random() * 2 + 1
+        });
+    }
 
-    function drawBalloon(x, y, color) {
-        // Balloon body
+    function drawBalloon(balloon) {
         ctx.beginPath();
-        ctx.arc(x, y, balloonRadius, 0, Math.PI * 2, false);
-        ctx.fillStyle = color;
+        ctx.arc(balloon.x, balloon.y, balloon.r, 0, Math.PI * 2);
+        ctx.fillStyle = balloon.color;
         ctx.fill();
-
-        // Balloon thread
-        ctx.beginPath();
-        ctx.moveTo(x, y + balloonRadius);
-        ctx.lineTo(x, y + balloonRadius + threadLength);
-        ctx.strokeStyle = '#000000';
-        ctx.lineWidth = 2;
-        ctx.stroke();
+        ctx.closePath();
     }
 
     function updateBalloons() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        balloons.forEach(balloon => {
-            balloon.y -= 1; // Adjust speed
-            if (balloon.y + balloonRadius + threadLength < 0) {
-                // Reset balloon position if it goes off-screen
-                balloon.y = canvas.height + threadLength + balloonRadius;
+        for (const balloon of balloons) {
+            balloon.y -= balloon.speed;
+            if (balloon.y + balloon.r < 0) {
+                balloon.y = canvas.height + balloon.r;
+                balloon.x = Math.random() * canvas.width;
             }
-            drawBalloon(balloon.x, balloon.y, balloon.color);
-        });
-    }
-
-    function initBalloons() {
-        for (let i = 0; i < numBalloons; i++) {
-            const x = Math.random() * canvas.width;
-            const y = Math.random() * canvas.height;
-            const color = balloonColors[Math.floor(Math.random() * balloonColors.length)];
-            balloons.push({ x, y, color });
+            drawBalloon(balloon);
         }
+        requestAnimationFrame(updateBalloons);
     }
 
-    function animateBalloons() {
-        requestAnimationFrame(animateBalloons);
-        updateBalloons();
-    }
+    updateBalloons();
+    window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    });
 
-    initBalloons();
-    animateBalloons();
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 }
